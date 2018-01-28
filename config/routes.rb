@@ -4,9 +4,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :lists
       resources :items
-      # post '/signup', to: 'users#create'
-      # post '/login', to: 'auth#create'
-      # post '/current_user', to: 'auth#show'
+      post '/signup', to: 'users#create'
+      post '/login', to: 'auth#create'
+      post '/current_user', to: 'auth#show'
     end
   end
 end
