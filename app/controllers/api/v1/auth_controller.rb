@@ -22,7 +22,7 @@ class Api::V1::AuthController < ApplicationController
     user_id = decoded_token.first['user_id']
     user = User.find_by(id: user_id)
     if user
-      render json: {user: user, lists: user.lists}
+      render json: {user: user, lists: user.lists_with_items}
     else
       render json: {error: "Could not find this user. Username or password is incorrect."}, status: 401
     end
