@@ -1,19 +1,16 @@
 class Api::V1::AuthController < ApplicationController
 
   def create
-    byebug
-    user = User.find_by(username: params[:auth][:username])
+    user = User.find_by(name: params[:auth][:name])
     if user && user.authenticate(params[:auth][:password])
        # issue user a token
-      payload = {user_id: user.id}
+      payload = {userId: user.id}
       token = JWT.encode(payload, ENV["MY_SECRET"], ENV["ALG"])
       render json: {
-        token: token,
-        user: user.package_json
-
+        token: token
        }
-
     else
+      ## need to handle this
       render json: {error: "Could not authorize this user"}, status: 401
     end
   end
