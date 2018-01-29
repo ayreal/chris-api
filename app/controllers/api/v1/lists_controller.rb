@@ -21,7 +21,10 @@ class Api::V1::ListsController < ApplicationController
 
  def destroy
    # delete a list
-   byebug
+   list = List.find_by(id: params[:id])
+   user = list.user
+   list.destroy
+     render json: user.lists_with_items
  end
 
  private
