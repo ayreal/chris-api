@@ -12,19 +12,10 @@ class Api::V1::ListsController < ApplicationController
    user.lists << list
    list.save!
    listIds = params[:listIds]
-
     if !listIds.empty?
-      # combine all the items into an array
-      # find unique w/ list.items.pluck(:id).uniq
-      # add all into the new list
-      newList = listIds.map do |id|
-        l = List.find_by(id: id)
-        l.items
-      end
-      newList = newList.flatten!.uniq
-      newList.each { |i| list.items << i}
+      List.new_from_template(listIds, list)
     end
-    render json: list
+    render json: list.with_items
  end
 
  def update
