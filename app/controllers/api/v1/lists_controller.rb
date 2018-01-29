@@ -6,16 +6,33 @@ class Api::V1::ListsController < ApplicationController
    render json: @lists
  end
 
+ def create
+   list = List.new(name: params[:name])
+   user = User.find_by(id: params[:userId])
+   user.lists << list
+   list.save!
+   listIds = params[:listIds]
+
+    if !listIds.empty?
+      listIds.each do |id|
+        byebug
+        l = List.find_by(id: id)
+        l.items.each { |item| list.items << item }
+      end
+    end
+    render json: list
+ end
+
  def update
    # rename a list
    byebug
-   @list = List.find(params[:id])
+   list = List.find(params[:id])
 
-   @list.update(list_params)
-   if @list.save
-     render json: @list
+   list.update(list_params)
+   if list.save
+     render json: list
    else
-     render json: {errors: @list.errors.full_messages}, status: 422
+     render json: {errors: list.errors.full_messages}, status: 422
    end
  end
 
