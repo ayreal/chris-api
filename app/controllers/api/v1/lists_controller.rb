@@ -15,9 +15,13 @@ class Api::V1::ListsController < ApplicationController
 
     if !listIds.empty?
       listIds.each do |id|
-        byebug
+        # byebug
         l = List.find_by(id: id)
-        l.items.each { |item| list.items << item }
+        l.items.each do |item|
+          if !list.items.includes(item)
+          list.items << item
+          end
+        end
       end
     end
     render json: list
