@@ -7,7 +7,8 @@ class Api::V1::UsersController < ApplicationController
       payload = {user_id: user.id}
       token = JWT.encode(payload, ENV["MY_SECRET"], ENV["ALG"])
       render json: {
-        token: token
+        token: token,
+        user: user
        }
     else
       render json: {error: "Could not authorize this user"}, status: 401
