@@ -14,15 +14,15 @@ class Api::V1::ListsController < ApplicationController
    listIds = params[:listIds]
 
     if !listIds.empty?
-      listIds.each do |id|
-        # byebug
+      # combine all the items into an array
+      # find unique w/ list.items.pluck(:id).uniq
+      # add all into the new list
+      newList = listIds.map do |id|
         l = List.find_by(id: id)
-        l.items.each do |item|
-          if !list.items.includes(item)
-          list.items << item
-          end
-        end
+        l.items
       end
+      newList = newList.flatten!.uniq
+      newList.each { |i| list.items << i}
     end
     render json: list
  end
