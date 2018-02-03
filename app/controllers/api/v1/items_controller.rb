@@ -5,7 +5,7 @@ class Api::V1::ItemsController < ApplicationController
     list = List.find_by(id: params[:listId])
     list.items << item
 
-      render json: list.with_items
+      render json: {item: item, listId: list.id}
   end
 
   def destroy
